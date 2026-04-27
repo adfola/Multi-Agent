@@ -1,0 +1,16 @@
+
+--- article1.txt ---
+# Sample Test Data - Article 1
+This is a critical update about urgent security patching. 
+Action required: All systems must be updated today.
+This is an ASAP priority item with an important deadline.
+The vulnerability is critical and must be addressed immediately.
+
+
+--- article2.txt ---
+# Sample Test Data - Article 2
+New AI features released this month showing promising results.
+Market trends indicate important shifts in consumer behavior.
+Quarterly earnings exceeded expectations today.
+Teams celebrated the successful product launch.
+

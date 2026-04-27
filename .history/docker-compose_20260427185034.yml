@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  ingestor:
+    build: ./multi-agents-digest/agents/ingestor
+    container_name: agent_ingestor
+    volumes:
+      - ./multi-agents-digest/data:/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: "no"
+    networks:
+      - multi-agent-network
+
+  summarizer:
+    build: ./multi-agents-digest/agents/summarizer
+    container_name: agent_summarizer
+    depends_on:
+      - ingestor
+    volumes:
+      - ./multi-agents-digest/data:/data
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PYTHONUNBUFFERED=1
+    restart: "no"
+    networks:
+      - multi-agent-network
+
+  prioritizer:
+    build: ./multi-agents-digest/agents/prioritizer
+    container_name: agent_prioritizer
+    depends_on:
+      - summarizer
+    volumes:
+      - ./multi-agents-digest/data:/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: "no"
+    networks:
+      - multi-agent-network
+
+  formatter:
+    build: ./multi-agents-digest/agents/formatter
+    container_name: agent_formatter
+    depends_on:
+      - prioritizer
+    volumes:
+      - ./multi-agents-digest/data:/data
+      - ./multi-agents-digest/output:/output
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: "no"
+    networks:
+      - multi-agent-network
+
+volumes:
+  data:
+    driver: local
+  output:
+    driver: local
+
+networks:
+  multi-agent-network:
+    driver: bridge
+    driver: bridge
